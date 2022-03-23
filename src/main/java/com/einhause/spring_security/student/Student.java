@@ -1,4 +1,4 @@
-package com.einhause.spring_security.Student;
+package com.einhause.spring_security.student;
 
 public class Student {
     private final Long studentId;
