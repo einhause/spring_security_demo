@@ -15,6 +15,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         // Basic auth configuration with browser popup for every request
         http
                 .authorizeRequests()
+                .antMatchers("/", "index", "/css/*", "/js/*")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
