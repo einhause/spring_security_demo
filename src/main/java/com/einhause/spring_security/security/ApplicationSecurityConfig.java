@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.einhause.spring_security.security.ApplicationUserPermission.COURSE_WRITE;
 import static com.einhause.spring_security.security.ApplicationUserRole.*;
@@ -33,19 +34,25 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // Basic auth configuration with browser popup for every request
+        // form auth
         http
-                .csrf().disable() // TODO: remove this later
+                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //.and()
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/api/**").hasRole(STUDENT.name())
+
                 /*.antMatchers(DELETE,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(POST,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(PATCH,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(GET,"/management/api/**").hasAnyRole(ADMIN.name(), ADMIN_TRAINEE.name())*/
+
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic();
+                .formLogin()
+                .loginPage("/login")
+                .permitAll();
     }
 
     @Override

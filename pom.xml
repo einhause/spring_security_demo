@@ -36,6 +36,13 @@
 			<version>28.1-jre</version>
 		</dependency>
 
+		<!--helps with html files -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
 		<!--	Spring starter test	-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
