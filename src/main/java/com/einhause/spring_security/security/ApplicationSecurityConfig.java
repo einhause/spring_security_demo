@@ -31,10 +31,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         // Basic auth configuration with browser popup for every request
         http
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
+                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/api/**").hasRole(STUDENT.name())
+                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
     }
@@ -54,9 +53,16 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles(ADMIN.name()) // ROLE_ADMIN
                 .build();
 
+        UserDetails tomHanksUser = User.builder()
+                .username("tomhanks")
+                .password(passwordEncoder.encode("password123"))
+                .roles(ADMIN_TRAINEE.name()) // ROLE_ADMIN
+                .build();
+
         return new InMemoryUserDetailsManager(
                 annaSmithUser,
-                lindaJacksonUser
+                lindaJacksonUser,
+                tomHanksUser
         );
     }
 }

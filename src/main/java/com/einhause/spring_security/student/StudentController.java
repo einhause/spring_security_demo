@@ -12,7 +12,7 @@ import java.util.List;
 public class StudentController {
 
     private static final List<Student> students = List.of(
-            new Student(1l, "Eric"),
+            new Student(1L, "Eric"),
             new Student(2L, "Amy"),
             new Student(3L, "Kevin")
     );
@@ -22,7 +22,7 @@ public class StudentController {
         Student student = students.stream()
                 .filter(s -> s.getStudentId().equals(studentId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException(String.format("Student with ID: %s not found!")));
+                .orElseThrow(() -> new IllegalStateException(String.format("Student with ID: %d not found!", studentId)));
         return student;
     }
 }

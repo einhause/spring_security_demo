@@ -6,7 +6,8 @@ import static com.einhause.spring_security.security.ApplicationUserPermission.*;
 
 public enum ApplicationUserRole {
     STUDENT(Set.of()),
-    ADMIN(Set.of(STUDENT_READ, STUDENT_WRITE, COURSE_READ, COURSE_WRITE));
+    ADMIN(Set.of(STUDENT_READ, STUDENT_WRITE, COURSE_READ, COURSE_WRITE)),
+    ADMIN_TRAINEE(Set.of(STUDENT_READ, COURSE_READ));
 
     private final Set<ApplicationUserPermission> permissions;
 
