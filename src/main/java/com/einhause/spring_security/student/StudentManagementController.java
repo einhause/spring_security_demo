@@ -16,22 +16,24 @@ public class StudentManagementController {
 
     @GetMapping
     public List<Student> getAllStudents() {
+        System.out.println("get all");
         return students;
     }
 
     @PostMapping
     public void registerNewStudent(Student student) {
-
+        System.out.println(student);
     }
 
-    @DeleteMapping(path = "/{studentId}")
+    @DeleteMapping(path = "{studentId}")
     public void deleteStudent(@PathVariable("studentId") Long studentId) {
-
+        System.out.println(studentId);
     }
 
-    @PatchMapping(path = "/{studentId}")
+    @PatchMapping(path = "{studentId}")
     public void updateStudent(@PathVariable("studentId") Long studentId, @RequestBody Student student) {
-
+        System.out.println(studentId);
+        System.out.println(student);
     }
 
 }
