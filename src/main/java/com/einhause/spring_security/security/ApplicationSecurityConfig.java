@@ -1,5 +1,6 @@
 package com.einhause.spring_security.security;
 
+import com.einhause.spring_security.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 import com.einhause.spring_security.auth.ApplicationUserService;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.concurrent.TimeUnit;
@@ -40,6 +42,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.and()
                 .csrf()
                     .disable()
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()))
                 .authorizeRequests()
                     .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                     .antMatchers("/api/**").hasRole(STUDENT.name())
