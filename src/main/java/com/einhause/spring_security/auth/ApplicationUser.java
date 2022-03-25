@@ -23,8 +23,8 @@ public class ApplicationUser implements UserDetails {
                            boolean isAccountNonLocked,
                            boolean isCredentialsNonExpired,
                            boolean isEnabled) {
-        this.password = username;
-        this.username = password;
+        this.username = username;
+        this.password = password;
         this.grantedAuthorities = grantedAuthorities;
         this.isAccountNonExpired = isAccountNonExpired;
         this.isAccountNonLocked = isAccountNonLocked;
