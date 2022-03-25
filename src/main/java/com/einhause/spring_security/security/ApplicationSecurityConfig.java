@@ -40,26 +40,35 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 //.and()
-                .csrf().disable()
+                .csrf()
+                    .disable()
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/api/**").hasRole(STUDENT.name())
+                    .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
+                    .antMatchers("/api/**").hasRole(STUDENT.name())
 
                 /*.antMatchers(DELETE,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(POST,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(PATCH,"/management/api/**").hasAuthority(COURSE_WRITE.getPermission())
                 .antMatchers(GET,"/management/api/**").hasAnyRole(ADMIN.name(), ADMIN_TRAINEE.name())*/
 
-                .anyRequest().authenticated()
+                .anyRequest()
+                    .authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll()
-                .defaultSuccessUrl("/courses", true)
+                    .loginPage("/login")
+                    .permitAll()
+                    .defaultSuccessUrl("/courses", true)
                 .and()
                 .rememberMe()
                     .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))
-                    .key("supersecretkey123");
+                    .key("supersecretkey123")
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .clearAuthentication(true)
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
+                    .logoutSuccessUrl("/login");
     }
 
     @Override
