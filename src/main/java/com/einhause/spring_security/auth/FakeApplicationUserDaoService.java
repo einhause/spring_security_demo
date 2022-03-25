@@ -1,7 +1,6 @@
 package com.einhause.spring_security.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +10,7 @@ import java.util.Optional;
 import static com.einhause.spring_security.security.ApplicationUserRole.*;
 
 @Repository("fake")
-public class FakeApplicationUserDaoService  implements ApplicationUserDao {
+public class FakeApplicationUserDaoService implements ApplicationUserDao {
 
     private final PasswordEncoder passwordEncoder;
 
