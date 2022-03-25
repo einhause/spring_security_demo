@@ -76,5 +76,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             throw new IllegalStateException(String.format("Token: %s is invalid!", token));
         }
 
+        // allows to send resource back from server (if authenticated/authorized)
+        filterChain.doFilter(request, response);
     }
 }
