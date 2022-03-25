@@ -5,13 +5,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,28 +24,36 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class JwtTokenVerifier extends OncePerRequestFilter {
+
+    private final SecretKey secretKey;
+    private final JwtConfig jwtConfig;
+
+    @Autowired
+    public JwtTokenVerifier(SecretKey secretKey, JwtConfig jwtConfig) {
+        this.secretKey = secretKey;
+        this.jwtConfig = jwtConfig;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String authorizationHeader = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        // remove 'Bearer ' from auth header
-        String token = authorizationHeader.replace("Bearer ", "");
-
-        // if no token or it doesnt start with Bearer
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith("Bearer ")) {
+        // if no token or it doesn't start with Bearer
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
             filterChain.doFilter(request, response);
             return;
         }
 
+        // remove 'Bearer ' from auth header
+        String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
+
         try {
-            // secret key
-            String key = "supersecretkeysupersecretkeysupersecretkeysupersecretkeysupersecretkeysupersecretkey";
 
             // build the Jws claim
             Jws<Claims> claimsJws = Jwts.parserBuilder()
-                    .setSigningKey(Keys.hmacShaKeyFor(key.getBytes()))
+                    .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token);
 
