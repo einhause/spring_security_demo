@@ -4,7 +4,7 @@ import com.google.common.net.HttpHeaders;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-@Component // needed to be classified as a bean and be authwired in JwtSecretKey
+@Component // needed to be classified as a bean and be autowired in JwtSecretKey
 @ConfigurationProperties(prefix = "application.jwt")
 public class JwtConfig {
 

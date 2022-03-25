@@ -3,6 +3,7 @@ package com.einhause.spring_security.security;
 import com.einhause.spring_security.jwt.JwtConfig;
 import com.einhause.spring_security.jwt.JwtTokenVerifier;
 import com.einhause.spring_security.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +14,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.einhause.spring_security.auth.ApplicationUserService;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.einhause.spring_security.auth.ApplicationUserService;
 
 import javax.crypto.SecretKey;
 import java.util.concurrent.TimeUnit;
