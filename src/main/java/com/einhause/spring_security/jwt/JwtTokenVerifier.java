@@ -72,7 +72,7 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             // config the authentication method
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        } catch (JwtException jwte) {
+        } catch (JwtException jwtException) {
             throw new IllegalStateException(String.format("Token: %s is invalid!", token));
         }
 
